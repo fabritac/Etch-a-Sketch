@@ -1,0 +1,25 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.gridRow {
+  display: flex;
+  flex-grow: 1;
+}
+
+.cell {
+  border: 1px solid gray;
+  min-width: 20px;
+  min-height: 20px;
+  display: inline-block;
+  flex-grow: 1;
+  user-select: none;
+  cursor: pointer;
+}
