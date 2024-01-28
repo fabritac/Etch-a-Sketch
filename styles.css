@@ -23,3 +23,8 @@ html, body {
   user-select: none;
   cursor: pointer;
 }
+
+#new-grid {
+  height: 5%;
+  width: 100%; 
+}
