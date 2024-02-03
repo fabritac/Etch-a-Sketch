@@ -3,6 +3,15 @@ let rows = document.getElementsByClassName("gridRow");
 let cells = document.getElementsByClassName("cell");
 const button = document.getElementById("new-grid");
 let size = 16;
+let colors = [];
+
+function randomColors(numColors) {
+    colors = [];
+    for (let i = 0; i < numColors; i++) {
+	const randomColor = '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16);
+	colors.push(randomColor);
+    }
+}
 
 button.onclick = function () {
     let userInput = prompt("Enter the number of squares per side:");
@@ -33,15 +42,15 @@ function defaultGrid() {
 }
 
 function makeRows(rowNum) {
-    for (r = 0; r < rowNum; r++) {
-        let row = document.createElement('div');
+    for (let r = 0; r < rowNum; r++) {
+        let row = document.createElement("div");
         container.appendChild(row).className = "gridRow";
     }
 }
 
 function makeColumns(cellNum) {
-    for (i = 0; i < rows.length; i++) {
-        for (j = 0; j < cellNum; j++) {
+    for (let i = 0; i < rows.length; i++) {
+        for (let j = 0; j < cellNum; j++) {
             let newCell = document.createElement("div");
             rows[i].appendChild(newCell).className = "cell";
         }
@@ -50,13 +59,32 @@ function makeColumns(cellNum) {
 
 function addMouseoverListener() {
     cells = document.getElementsByClassName("cell");
+
     for (let i = 0; i < cells.length; i++) {
-	cells[i].addEventListener('mouseover', function(event) {
-	    if (event.buttons === 1) {
-		this.style.backgroundColor = 'black';
-	    }
-	});
+        cells[i].addEventListener('mouseover', function (event) {
+            if (event.buttons === 1) {
+                if (this.style.backgroundColor && this.style.backgroundColor !== 'white') {
+                    darkenCell(this, 0.1);
+                } else {
+                    randomColors(1);
+                    this.style.backgroundColor = colors[0];
+                }
+            }
+        });
     }
 }
+
+function darkenCell(cell, factor) {
+    const currentColor = cell.style.backgroundColor;
+    
+    if (currentColor && currentColor !== 'white') {
+        const rgbValues = currentColor.match(/\d+/g).map(Number);
+
+        const newColor = `rgb(${rgbValues.map(value => Math.round(value * (1 - factor))).join(', ')})`;
+
+        cell.style.backgroundColor = newColor;
+    }
+}
+
 
 createGrid();
